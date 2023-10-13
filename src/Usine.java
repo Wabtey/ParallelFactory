@@ -1,6 +1,8 @@
 // PENSEZ A INDIQUER PAR DES COMMENTAIRES LES MODIFICATIONS APPORTEES A CE SQUELETTE AU FUR
 // ET A MESURE DE L'EVOLUTION DU CODE DEMANDEE DANS LE TP.
 
+import java.util.Timer;
+
 /**
  * Les objets instances de la classe Usine represente une usine avec deux
  * ateliers.
@@ -46,9 +48,16 @@ class Usine {
      * @param args Non utilise
      */
     public static void main(String[] args) {
+        // 2.1 - Add a stopwatch to mesure change effectivness
+        long start = System.currentTimeMillis();
 
+        // 1.3 - L'usine est créée.
+        // 2.1 - Without any change the factory process in 1.014s
         Usine montainlibaie = new Usine();
         montainlibaie.fonctionner();
 
+        long finish = System.currentTimeMillis();
+        float timeElapsed = finish - start;
+        System.out.println("Tasks completed in " + timeElapsed / 1000 + "s");
     }
 }
