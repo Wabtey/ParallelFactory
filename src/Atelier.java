@@ -29,6 +29,8 @@ class Atelier extends Thread {
      */
     private int nbTransfo;
 
+    private String name;
+
     /**
      * Construit un objet instance d'Atelier
      * 
@@ -36,7 +38,8 @@ class Atelier extends Thread {
      * @param B         Le stock de pieces transformees
      * @param nbTransfo Le nombre de transformations par appel a travailler()
      */
-    public Atelier(Stock A, Stock B, int nbTransfo) {
+    public Atelier(String workshopName, Stock A, Stock B, int nbTransfo) {
+        this.name = workshopName;
         this.A = A;
         this.B = B;
         this.nbTransfo = nbTransfo;
@@ -46,12 +49,12 @@ class Atelier extends Thread {
      * Effectue une transformation
      */
     public void transformer() {
-        A.destocker();
-        // try {
-        // Thread.sleep(100);
-        // } catch (InterruptedException e) {
-        // }
-        B.stocker();
+        A.destocker(name);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+        }
+        B.stocker(name);
     }
 
     /**

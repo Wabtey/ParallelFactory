@@ -20,7 +20,7 @@ class Usine {
      * Stock de pieces a transformer
      * 2.1 - Modified to 500 to observe parallelism more accurately
      */
-    Stock stockDepart = new Stock("de depart", 100000);
+    Stock stockDepart = new Stock("de depart", 10);
     /**
      * Stock de pieces transformees
      */
@@ -29,8 +29,8 @@ class Usine {
      * Ateliers de transformation
      * 2.1 - We share the work between all workstation (250 each)
      */
-    Atelier atelier1 = new Atelier(stockDepart, stockFin, 50000);
-    Atelier atelier2 = new Atelier(stockDepart, stockFin, 50000);
+    Atelier atelier1 = new Atelier("1", stockDepart, stockFin, 5);
+    Atelier atelier2 = new Atelier("2", stockDepart, stockFin, 5);
 
     /**
      * Effectuer le travail de l'usine
@@ -47,12 +47,12 @@ class Usine {
         try {
             atelier1.join();
         } catch (InterruptedException e) {
-            Logger.getGlobal().info("Thread " + atelier1.getName() + " interrupted");
+            Logger.getGlobal().warning("Thread " + atelier1.getName() + " interrupted");
         }
         try {
             atelier2.join();
         } catch (InterruptedException e) {
-            Logger.getGlobal().info("Thread " + atelier2.getName() + " interrupted");
+            Logger.getGlobal().warning("Thread " + atelier2.getName() + " interrupted");
         }
 
         stockDepart.afficher();

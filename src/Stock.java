@@ -32,17 +32,22 @@ class Stock {
     /**
      * Poser une piece sur le haut de la pile de pieces
      * 2.1 - we synchronized `stocker()` and `destocker()`
+     * 2.3 - The Execution won't be fixed. There is no particular order.
      */
-    synchronized public void stocker() {
+    synchronized public void stocker(String workshopName) {
         nbPieces++;
+        System.out.println("The workshop " + workshopName + " restock.");
+        afficher();
     }
 
     /**
      * Saisir une piece sur le haut de la pile de pieces
      * 2.1 - we synchronized `stocker()` and `destocker()`
      */
-    synchronized public void destocker() {
+    synchronized public void destocker(String workshopName) {
         nbPieces--;
+        System.out.println("The workshop " + workshopName + " destock.");
+        afficher();
     }
 
     /**
