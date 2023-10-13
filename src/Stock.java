@@ -36,8 +36,8 @@ class Stock {
      */
     synchronized public void stocker(String workshopName) {
         nbPieces++;
-        System.out.println("The workshop " + workshopName + " restock.");
-        afficher();
+        // System.out.println("The workshop " + workshopName + " restock.");
+        // afficher();
     }
 
     /**
@@ -46,8 +46,8 @@ class Stock {
      */
     synchronized public void destocker(String workshopName) {
         nbPieces--;
-        System.out.println("The workshop " + workshopName + " destock.");
-        afficher();
+        // System.out.println("The workshop " + workshopName + " destock.");
+        // afficher();
     }
 
     /**
