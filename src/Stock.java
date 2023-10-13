@@ -45,7 +45,9 @@ class Stock {
      * 2.1 - we synchronized `stocker()` and `destocker()`
      */
     synchronized public void destocker(String workshopName) {
-        nbPieces--;
+        if (nbPieces > 0) {
+            nbPieces--;
+        }
         // System.out.println("The workshop " + workshopName + " destock.");
         // afficher();
     }

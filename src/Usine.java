@@ -22,6 +22,10 @@ class Usine {
      */
     Stock stockDepart = new Stock("de depart", 10);
     /**
+     * Stock de pieces a mi-transformée
+     */
+    Stock stockIntermediaire = new Stock("intermédiaire", 0);
+    /**
      * Stock de pieces transformees
      */
     Stock stockFin = new Stock("d'arrivee", 0);
@@ -29,8 +33,8 @@ class Usine {
      * Ateliers de transformation
      * 2.1 - We share the work between all workstation (250 each)
      */
-    Atelier atelier1 = new Atelier("1", stockDepart, stockFin, 5);
-    Atelier atelier2 = new Atelier("2", stockDepart, stockFin, 5);
+    Atelier atelier1 = new Atelier("1", stockDepart, stockIntermediaire, 10);
+    Atelier atelier2 = new Atelier("2", stockIntermediaire, stockFin, 10);
 
     /**
      * Effectuer le travail de l'usine
