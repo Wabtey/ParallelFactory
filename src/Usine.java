@@ -2,17 +2,21 @@
 // ET A MESURE DE L'EVOLUTION DU CODE DEMANDEE DANS LE TP.
 
 /**
- * Les objets instances de la classe Usine represente une usine avec deux ateliers.
- * Une instance d'Usine possede un stock de pieces a transformer ainsi qu'un stock
- * de pieces finies initialement vide. Chacun des deux ateliers transforme la moitie
+ * Les objets instances de la classe Usine represente une usine avec deux
+ * ateliers.
+ * Une instance d'Usine possede un stock de pieces a transformer ainsi qu'un
+ * stock
+ * de pieces finies initialement vide. Chacun des deux ateliers transforme la
+ * moitie
  * des unites du stock a transformer.
- * La methode fonctionner() fait travailler successivement les deux ateliers et affiche
+ * La methode fonctionner() fait travailler successivement les deux ateliers et
+ * affiche
  * l'etat des stocks a la fin des travaux.
  */
 class Usine {
-	/**
-	 * Stock de pieces a transformer
-	 */
+    /**
+     * Stock de pieces a transformer
+     */
     Stock stockDepart = new Stock("de depart", 10);
     /**
      * Stock de pieces transformees
@@ -30,19 +34,21 @@ class Usine {
      * l'evolution de l'etat des stocks.
      */
     public void fonctionner() {
-    		atelier1.travailler();
-    		atelier2.travailler();
-    		stockDepart.afficher();
-    		stockFin.afficher();
+        atelier1.travailler();
+        atelier2.travailler();
+        stockDepart.afficher();
+        stockFin.afficher();
     }
 
     /**
      * Point d'entree pour l'ensemble du TP.
+     * 
      * @param args Non utilise
      */
     public static void main(String[] args) {
 
-
+        Usine montainlibaie = new Usine();
+        montainlibaie.fonctionner();
 
     }
 }
