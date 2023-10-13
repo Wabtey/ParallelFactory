@@ -1,7 +1,8 @@
 // PENSEZ A INDIQUER PAR DES COMMENTAIRES LES MODIFICATIONS APPORTEES A CE SQUELETTE AU FUR
 // ET A MESURE DE L'EVOLUTION DU CODE DEMANDEE DANS LE TP.
 
-import java.util.Timer;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
  * Les objets instances de la classe Usine represente une usine avec deux
@@ -18,17 +19,19 @@ import java.util.Timer;
 class Usine {
     /**
      * Stock de pieces a transformer
+     * 2.1 - Modified to 500 to observe parallelism more accurately
      */
-    Stock stockDepart = new Stock("de depart", 10);
+    Stock stockDepart = new Stock("de depart", 500);
     /**
      * Stock de pieces transformees
      */
     Stock stockFin = new Stock("d'arrivee", 0);
     /**
      * Ateliers de transformation
+     * 2.1 - We share the work between all workstation (250 each)
      */
-    Atelier atelier1 = new Atelier(stockDepart, stockFin, 5);
-    Atelier atelier2 = new Atelier(stockDepart, stockFin, 5);
+    Atelier atelier1 = new Atelier(stockDepart, stockFin, 250);
+    Atelier atelier2 = new Atelier(stockDepart, stockFin, 250);
 
     /**
      * Effectuer le travail de l'usine
@@ -36,8 +39,23 @@ class Usine {
      * l'evolution de l'etat des stocks.
      */
     public void fonctionner() {
-        atelier1.travailler();
-        atelier2.travailler();
+        // 2.1 - We are starting the two workshops
+        atelier1.start();
+        atelier2.start();
+
+        // 2.1 - We add the two `join()` functions to wait the two threads to end
+        // 2.1 - If we don't wait, the stock will be displayed in process
+        try {
+            atelier1.join();
+        } catch (InterruptedException e) {
+            Logger.getGlobal().info("Thread " + atelier1.getName() + " interrupted");
+        }
+        try {
+            atelier2.join();
+        } catch (InterruptedException e) {
+            Logger.getGlobal().info("Thread " + atelier2.getName() + " interrupted");
+        }
+
         stockDepart.afficher();
         stockFin.afficher();
     }
@@ -52,7 +70,9 @@ class Usine {
         long start = System.currentTimeMillis();
 
         // 1.3 - L'usine est créée.
-        // 2.1 - Without any change the factory process in 1.014s
+        // 2.1 - Without any change the factory proceeds in 1.014s
+        // 2.1 - With simple parallelism the factory proceeds in 0.52s
+        // 2.1 - We increase the initial stock to 500, new time: 25.069s D:
         Usine montainlibaie = new Usine();
         montainlibaie.fonctionner();
 
