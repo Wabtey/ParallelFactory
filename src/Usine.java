@@ -1,7 +1,6 @@
 // PENSEZ A INDIQUER PAR DES COMMENTAIRES LES MODIFICATIONS APPORTEES A CE SQUELETTE AU FUR
 // ET A MESURE DE L'EVOLUTION DU CODE DEMANDEE DANS LE TP.
 
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /**
@@ -21,7 +20,7 @@ class Usine {
      * Stock de pieces a transformer
      * 2.1 - Modified to 500 to observe parallelism more accurately
      */
-    Stock stockDepart = new Stock("de depart", 500);
+    Stock stockDepart = new Stock("de depart", 100000);
     /**
      * Stock de pieces transformees
      */
@@ -30,8 +29,8 @@ class Usine {
      * Ateliers de transformation
      * 2.1 - We share the work between all workstation (250 each)
      */
-    Atelier atelier1 = new Atelier(stockDepart, stockFin, 250);
-    Atelier atelier2 = new Atelier(stockDepart, stockFin, 250);
+    Atelier atelier1 = new Atelier(stockDepart, stockFin, 50000);
+    Atelier atelier2 = new Atelier(stockDepart, stockFin, 50000);
 
     /**
      * Effectuer le travail de l'usine
@@ -72,7 +71,9 @@ class Usine {
         // 1.3 - L'usine est créée.
         // 2.1 - Without any change the factory proceeds in 1.014s
         // 2.1 - With simple parallelism the factory proceeds in 0.52s
-        // 2.1 - We increase the initial stock to 500, new time: 25.069s D:
+        // 2.1 - We increase the initial stock to 500; new time: 25.069s D:
+        // 2.2 - initial stock -> 100.000 but no sleep; new time: 0.022s
+        // 2.2 - I didn't manage to identify a problem (prbly solved in 2.1)
         Usine montainlibaie = new Usine();
         montainlibaie.fonctionner();
 
