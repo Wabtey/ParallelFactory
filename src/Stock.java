@@ -39,9 +39,9 @@ class Stock {
         // There is only two workshop, if one of them is blocked, it will be woken up
         notify();
 
-        // System.out.println("The workshop " + workshopName + " restock the stock " +
-        // nom + ".");
-        // afficher();
+        System.out.println("The workshop " + workshopName + " restock the stock " +
+                nom + ".");
+        afficher();
     }
 
     /**
@@ -53,7 +53,10 @@ class Stock {
     synchronized public void destocker(String workshopName) {
         // The while is needed, cause a workshop could have restock one stock but not
         // the one waiting
-        while (nbPieces <= 0) {
+        // This is not true, at the moment, cause the only one which could wait is the
+        // workshop 2, and the only one chihc could notify while a workshop is sleeping
+        // are the workshops 1 and 1bis
+        if (nbPieces <= 0) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -62,9 +65,9 @@ class Stock {
         }
         nbPieces--;
 
-        // System.out.println("The workshop " + workshopName + " destock the stock " +
-        // nom + ".");
-        // afficher();
+        System.out.println("The workshop " + workshopName + " destock the stock " +
+                nom + ".");
+        afficher();
     }
 
     /**

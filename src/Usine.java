@@ -33,7 +33,8 @@ class Usine {
      * Ateliers de transformation
      * 2.1 - We share the work between all workstation (250 each)
      */
-    Atelier atelier1 = new Atelier("1", stockDepart, stockIntermediaire, 10);
+    Atelier atelier1 = new Atelier("1", stockDepart, stockIntermediaire, 5);
+    Atelier atelier1bis = new Atelier("1bis", stockDepart, stockIntermediaire, 5);
     Atelier atelier2 = new Atelier("2", stockIntermediaire, stockFin, 10);
 
     /**
@@ -43,8 +44,11 @@ class Usine {
      */
     public void fonctionner() {
         // 2.1 - We are starting the two workshops
-        atelier1.start();
+        // 3.3 - Create a new workshop working on the first stock
+        // This will create a conflict between which could be woken up. (probably)
+        atelier1bis.start();
         atelier2.start();
+        atelier1.start();
 
         // 2.1 - We add the two `join()` functions to wait the two threads to end
         // 2.1 - If we don't wait, the stock will be displayed in process
