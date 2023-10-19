@@ -36,12 +36,12 @@ class Stock {
      */
     synchronized public void stocker(String workshopName) {
         nbPieces++;
-        // We need to wake up all stock just in case
-        notifyAll();
+        // There is only two workshop, if one of them is blocked, it will be woken up
+        notify();
 
-        // System.out.println("The workshop " + workshopName + " restock the stock " +
-        // nom + ".");
-        // afficher();
+        System.out.println("The workshop " + workshopName + " restock the stock " +
+                nom + ".");
+        afficher();
     }
 
     /**
@@ -51,8 +51,9 @@ class Stock {
      * ----- We have to wait until there some more.
      */
     synchronized public void destocker(String workshopName) {
+        // The while is needed, cause a workshop could have restock one stock but not
+        // the one waiting
         while (nbPieces <= 0) {
-            // We will wait until we're good to go.
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -61,9 +62,9 @@ class Stock {
         }
         nbPieces--;
 
-        // System.out.println("The workshop " + workshopName + " destock the stock " +
-        // nom + ".");
-        // afficher();
+        System.out.println("The workshop " + workshopName + " destock the stock " +
+                nom + ".");
+        afficher();
     }
 
     /**
