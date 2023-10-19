@@ -39,9 +39,9 @@ class Stock {
         // There is only two workshop, if one of them is blocked, it will be woken up
         notify();
 
-        System.out.println("The workshop " + workshopName + " restock the stock " +
-                nom + ".");
-        afficher();
+        // System.out.println("The workshop " + workshopName + " restock the stock " +
+        // nom + ".");
+        // afficher();
     }
 
     /**
@@ -62,9 +62,9 @@ class Stock {
         }
         nbPieces--;
 
-        System.out.println("The workshop " + workshopName + " destock the stock " +
-                nom + ".");
-        afficher();
+        // System.out.println("The workshop " + workshopName + " destock the stock " +
+        // nom + ".");
+        // afficher();
     }
 
     /**
