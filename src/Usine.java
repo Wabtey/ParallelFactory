@@ -60,6 +60,7 @@ class Usine {
         }
 
         stockDepart.afficher();
+        stockIntermediaire.afficher();
         stockFin.afficher();
     }
 

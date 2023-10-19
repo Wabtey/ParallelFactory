@@ -36,19 +36,33 @@ class Stock {
      */
     synchronized public void stocker(String workshopName) {
         nbPieces++;
-        // System.out.println("The workshop " + workshopName + " restock.");
+        // We need to wake up all stock just in case
+        notifyAll();
+
+        // System.out.println("The workshop " + workshopName + " restock the stock " +
+        // nom + ".");
         // afficher();
     }
 
     /**
      * Saisir une piece sur le haut de la pile de pieces
      * 2.1 - we synchronized `stocker()` and `destocker()`
+     * 3.1 - We now have the case where there is no piece to destock
+     * ----- We have to wait until there some more.
      */
     synchronized public void destocker(String workshopName) {
-        if (nbPieces > 0) {
-            nbPieces--;
+        while (nbPieces <= 0) {
+            // We will wait until we're good to go.
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        // System.out.println("The workshop " + workshopName + " destock.");
+        nbPieces--;
+
+        // System.out.println("The workshop " + workshopName + " destock the stock " +
+        // nom + ".");
         // afficher();
     }
 
