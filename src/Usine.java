@@ -20,17 +20,23 @@ class Usine {
      * Stock de pieces a transformer
      * 2.1 - Modified to 500 to observe parallelism more accurately
      */
-    Stock stockDepart = new Stock("de depart", 10);
+    Stock stockDepart = new Stock("de depart", 10, 10);
+    /**
+     * Stock de pieces a mi-transformée
+     */
+    Stock stockIntermediaire = new Stock("intermédiaire", 0, 1);
     /**
      * Stock de pieces transformees
      */
-    Stock stockFin = new Stock("d'arrivee", 0);
+    Stock stockFin = new Stock("d'arrivee", 0, 10);
     /**
      * Ateliers de transformation
      * 2.1 - We share the work between all workstation (250 each)
      */
-    Atelier atelier1 = new Atelier("1", stockDepart, stockFin, 5);
-    Atelier atelier2 = new Atelier("2", stockDepart, stockFin, 5);
+    Atelier atelier1 = new Atelier("1", stockDepart, stockIntermediaire, 10);
+    Atelier atelier1bis = new Atelier("1bis", stockDepart, stockIntermediaire, 10);
+    Atelier atelier2 = new Atelier("2", stockIntermediaire, stockFin, 5);
+    Atelier atelier2bis = new Atelier("2bis", stockIntermediaire, stockFin, 5);
 
     /**
      * Effectuer le travail de l'usine
@@ -39,8 +45,11 @@ class Usine {
      */
     public void fonctionner() {
         // 2.1 - We are starting the two workshops
-        atelier1.start();
+        // 3.3 - Create a new workshop working on the second stock
+        // This will create a conflict between which could be woken up. (probably)
         atelier2.start();
+        atelier2bis.start();
+        atelier1.start();
 
         // 2.1 - We add the two `join()` functions to wait the two threads to end
         // 2.1 - If we don't wait, the stock will be displayed in process
@@ -50,12 +59,18 @@ class Usine {
             Logger.getGlobal().warning("Thread " + atelier1.getName() + " interrupted");
         }
         try {
+            atelier2bis.join();
+        } catch (InterruptedException e) {
+            Logger.getGlobal().warning("Thread " + atelier2bis.getName() + " interrupted");
+        }
+        try {
             atelier2.join();
         } catch (InterruptedException e) {
             Logger.getGlobal().warning("Thread " + atelier2.getName() + " interrupted");
         }
 
         stockDepart.afficher();
+        stockIntermediaire.afficher();
         stockFin.afficher();
     }
 

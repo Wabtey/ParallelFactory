@@ -23,6 +23,7 @@ class Atelier extends Thread {
      * Le stock de produits transformes
      */
     private Stock B;
+
     /**
      * Le nombre de transformations effectuees lors d'un appel a
      * la methode travailler().
@@ -50,10 +51,10 @@ class Atelier extends Thread {
      */
     public void transformer() {
         A.destocker(name);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-        }
+        // try {
+        // Thread.sleep(100);
+        // } catch (InterruptedException e) {
+        // }
         B.stocker(name);
     }
 
