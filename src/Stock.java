@@ -14,6 +14,10 @@ class Stock {
      */
     private int nbPieces;
     /**
+     * Nombre de pieces maximal dans la pile
+     */
+    private int maxCapacity;
+    /**
      * Le nom du stock
      */
     private String nom;
@@ -21,12 +25,14 @@ class Stock {
     /**
      * Creer un nouvel objet instance de stock
      * 
-     * @param nom      Le nom du nouveau stock
-     * @param nbPieces Le nombre de pieces initial
+     * @param nom         Le nom du nouveau stock
+     * @param nbPieces    Le nombre de pieces initial
+     * @param maxCapacity Le nombre de pieces max
      */
-    public Stock(String nom, int nbPieces) {
-        this.nbPieces = nbPieces;
+    public Stock(String nom, int nbPieces, int maxCapacity) {
         this.nom = nom;
+        this.nbPieces = nbPieces;
+        this.maxCapacity = maxCapacity;
     }
 
     /**
@@ -35,9 +41,17 @@ class Stock {
      * 2.3 - The Execution won't be fixed. There is no particular order.
      */
     synchronized public void stocker(String workshopName) {
+        while (maxCapacity == nbPieces) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         nbPieces++;
-        // There is only two workshop, if one of them is blocked, it will be woken up
-        notify();
+        // 3.2 - There is only 2 workshops, if 1 of them is blocked, it will be woken up
+        // 3.4 - As we wait in stock and destock, we need to put `while` + `notifyAll()`
+        notifyAll();
 
         System.out.println("The workshop " + workshopName + " restock the stock " +
                 nom + ".");
@@ -56,7 +70,7 @@ class Stock {
         // This is not true, at the moment, cause the only one which could wait is the
         // workshop 2, and the only one chihc could notify while a workshop is sleeping
         // are the workshops 1 and 1bis
-        if (nbPieces <= 0) {
+        while (nbPieces <= 0) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -64,6 +78,7 @@ class Stock {
             }
         }
         nbPieces--;
+        notifyAll();
 
         System.out.println("The workshop " + workshopName + " destock the stock " +
                 nom + ".");

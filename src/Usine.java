@@ -20,22 +20,23 @@ class Usine {
      * Stock de pieces a transformer
      * 2.1 - Modified to 500 to observe parallelism more accurately
      */
-    Stock stockDepart = new Stock("de depart", 10);
+    Stock stockDepart = new Stock("de depart", 10, 10);
     /**
      * Stock de pieces a mi-transformée
      */
-    Stock stockIntermediaire = new Stock("intermédiaire", 0);
+    Stock stockIntermediaire = new Stock("intermédiaire", 0, 1);
     /**
      * Stock de pieces transformees
      */
-    Stock stockFin = new Stock("d'arrivee", 0);
+    Stock stockFin = new Stock("d'arrivee", 0, 10);
     /**
      * Ateliers de transformation
      * 2.1 - We share the work between all workstation (250 each)
      */
     Atelier atelier1 = new Atelier("1", stockDepart, stockIntermediaire, 10);
-    Atelier atelier2bis = new Atelier("2bis", stockIntermediaire, stockFin, 5);
+    Atelier atelier1bis = new Atelier("1bis", stockDepart, stockIntermediaire, 10);
     Atelier atelier2 = new Atelier("2", stockIntermediaire, stockFin, 5);
+    Atelier atelier2bis = new Atelier("2bis", stockIntermediaire, stockFin, 5);
 
     /**
      * Effectuer le travail de l'usine
@@ -46,8 +47,8 @@ class Usine {
         // 2.1 - We are starting the two workshops
         // 3.3 - Create a new workshop working on the second stock
         // This will create a conflict between which could be woken up. (probably)
-        atelier2bis.start();
         atelier2.start();
+        atelier2bis.start();
         atelier1.start();
 
         // 2.1 - We add the two `join()` functions to wait the two threads to end
