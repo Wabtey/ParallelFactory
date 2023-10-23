@@ -33,9 +33,9 @@ class Usine {
      * Ateliers de transformation
      * 2.1 - We share the work between all workstation (250 each)
      */
-    Atelier atelier1 = new Atelier("1", stockDepart, stockIntermediaire, 5);
-    Atelier atelier1bis = new Atelier("1bis", stockDepart, stockIntermediaire, 5);
-    Atelier atelier2 = new Atelier("2", stockIntermediaire, stockFin, 10);
+    Atelier atelier1 = new Atelier("1", stockDepart, stockIntermediaire, 10);
+    Atelier atelier2bis = new Atelier("2bis", stockIntermediaire, stockFin, 5);
+    Atelier atelier2 = new Atelier("2", stockIntermediaire, stockFin, 5);
 
     /**
      * Effectuer le travail de l'usine
@@ -44,9 +44,9 @@ class Usine {
      */
     public void fonctionner() {
         // 2.1 - We are starting the two workshops
-        // 3.3 - Create a new workshop working on the first stock
+        // 3.3 - Create a new workshop working on the second stock
         // This will create a conflict between which could be woken up. (probably)
-        atelier1bis.start();
+        atelier2bis.start();
         atelier2.start();
         atelier1.start();
 
@@ -56,6 +56,11 @@ class Usine {
             atelier1.join();
         } catch (InterruptedException e) {
             Logger.getGlobal().warning("Thread " + atelier1.getName() + " interrupted");
+        }
+        try {
+            atelier2bis.join();
+        } catch (InterruptedException e) {
+            Logger.getGlobal().warning("Thread " + atelier2bis.getName() + " interrupted");
         }
         try {
             atelier2.join();
